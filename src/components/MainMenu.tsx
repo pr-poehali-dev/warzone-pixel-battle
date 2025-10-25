@@ -2,34 +2,18 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import type { User, Screen } from '../App';
-import { useEffect, useRef } from 'react';
 
 interface MainMenuProps {
   user: User;
   onNavigate: (screen: Screen) => void;
   onLogout: () => void;
+  onSelectLevel: (level: number) => void;
 }
 
-export default function MainMenu({ user, onNavigate, onLogout }: MainMenuProps) {
-  const audioRef = useRef<HTMLAudioElement | null>(null);
-
-  useEffect(() => {
-    audioRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2462/2462-preview.mp3');
-    audioRef.current.loop = true;
-    audioRef.current.volume = 0.3;
-    audioRef.current.play().catch(() => {});
-
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.pause();
-        audioRef.current = null;
-      }
-    };
-  }, []);
-
+export default function MainMenu({ user, onNavigate, onLogout, onSelectLevel }: MainMenuProps) {
   const menuItems = [
     { icon: 'User', label: 'Профиль', screen: 'profile' as Screen, color: 'from-blue-600 to-cyan-600' },
-    { icon: 'Crosshair', label: 'Играть', screen: 'game' as Screen, color: 'from-orange-600 to-red-600' },
+    { icon: 'Crosshair', label: 'Уровни', screen: 'levels' as Screen, color: 'from-orange-600 to-red-600' },
     { icon: 'Users', label: 'Мультиплеер', screen: 'multiplayer' as Screen, color: 'from-purple-600 to-pink-600' },
     { icon: 'UserPlus', label: 'Друзья', screen: 'friends' as Screen, color: 'from-green-600 to-emerald-600' },
     { icon: 'ShoppingCart', label: 'Магазин', screen: 'shop' as Screen, color: 'from-yellow-600 to-orange-600' },

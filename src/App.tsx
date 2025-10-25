@@ -8,6 +8,7 @@ import MultiplayerScreen from './components/MultiplayerScreen';
 import FriendsScreen from './components/FriendsScreen';
 import ChatScreen from './components/ChatScreen';
 import AdminPanel from './components/AdminPanel';
+import LevelSelect from './components/LevelSelect';
 import { Toaster } from '@/components/ui/sonner';
 import './App.css';
 
@@ -27,7 +28,7 @@ export interface User {
   weapons: string[];
 }
 
-export type Screen = 'auth' | 'menu' | 'game' | 'profile' | 'shop' | 'multiplayer' | 'friends' | 'chat' | 'admin';
+export type Screen = 'auth' | 'menu' | 'game' | 'levels' | 'profile' | 'shop' | 'multiplayer' | 'friends' | 'chat' | 'admin';
 
 function App() {
   const [currentScreen, setCurrentScreen] = useState<Screen>('auth');
@@ -75,13 +76,27 @@ function App() {
           user={currentUser} 
           onNavigate={setCurrentScreen}
           onLogout={handleLogout}
+          onSelectLevel={(level) => {
+            setSelectedLevel(level);
+            setCurrentScreen('game');
+          }}
+        />
+      )}
+      {currentScreen === 'levels' && currentUser && (
+        <LevelSelect
+          user={currentUser}
+          onBack={() => setCurrentScreen('menu')}
+          onSelectLevel={(level) => {
+            setSelectedLevel(level);
+            setCurrentScreen('game');
+          }}
         />
       )}
       {currentScreen === 'game' && currentUser && (
         <GameScreen 
           user={currentUser}
           level={selectedLevel}
-          onBack={() => setCurrentScreen('menu')}
+          onBack={() => setCurrentScreen('levels')}
           onUpdateUser={updateUser}
         />
       )}

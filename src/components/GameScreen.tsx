@@ -33,8 +33,6 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
   const [bullets, setBullets] = useState<Bullet[]>([]);
   const [canShoot, setCanShoot] = useState(true);
   const [enemiesKilled, setEnemiesKilled] = useState(0);
-  const [joystickActive, setJoystickActive] = useState(false);
-  const [joystickAngle, setJoystickAngle] = useState(0);
   const canvasRef = useRef<HTMLDivElement>(null);
   const lastClickTime = useRef(0);
   const shootSoundRef = useRef<HTMLAudioElement | null>(null);
@@ -63,19 +61,35 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
   }, [level]);
 
   useEffect(() => {
-    if (!joystickActive) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      const step = 20;
+      switch(e.key) {
+        case 'ArrowUp':
+        case 'w':
+        case 'W':
+          setPlayerY(prev => Math.max(50, prev - step));
+          break;
+        case 'ArrowDown':
+        case 's':
+        case 'S':
+          setPlayerY(prev => Math.min(500, prev + step));
+          break;
+        case 'ArrowLeft':
+        case 'a':
+        case 'A':
+          setPlayerX(prev => Math.max(0, prev - step));
+          break;
+        case 'ArrowRight':
+        case 'd':
+        case 'D':
+          setPlayerX(prev => Math.min(400, prev + step));
+          break;
+      }
+    };
 
-    const interval = setInterval(() => {
-      const speed = 3;
-      const newX = playerX + Math.cos(joystickAngle) * speed;
-      const newY = playerY + Math.sin(joystickAngle) * speed;
-
-      if (newX >= 0 && newX <= 400) setPlayerX(newX);
-      if (newY >= 50 && newY <= 500) setPlayerY(newY);
-    }, 16);
-
-    return () => clearInterval(interval);
-  }, [joystickActive, joystickAngle, playerX, playerY]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, []);
 
   useEffect(() => {
     const interval = setInterval(() => {
@@ -181,25 +195,7 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
     }
   };
 
-  const handleJoystickStart = (e: React.TouchEvent | React.MouseEvent) => {
-    setJoystickActive(true);
-  };
 
-  const handleJoystickMove = (e: React.TouchEvent | React.MouseEvent) => {
-    if (!joystickActive) return;
-
-    const touch = 'touches' in e ? e.touches[0] : e;
-    const joystickElement = (e.target as HTMLElement).getBoundingClientRect();
-    const centerX = joystickElement.left + joystickElement.width / 2;
-    const centerY = joystickElement.top + joystickElement.height / 2;
-
-    const angle = Math.atan2(touch.clientY - centerY, touch.clientX - centerX);
-    setJoystickAngle(angle);
-  };
-
-  const handleJoystickEnd = () => {
-    setJoystickActive(false);
-  };
 
   return (
     <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-950">
@@ -250,25 +246,47 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
           </div>
         </div>
 
-        <div className="flex justify-center gap-4 mt-4">
-          <div
-            onMouseDown={handleJoystickStart}
-            onMouseMove={handleJoystickMove}
-            onMouseUp={handleJoystickEnd}
-            onMouseLeave={handleJoystickEnd}
-            onTouchStart={handleJoystickStart}
-            onTouchMove={handleJoystickMove}
-            onTouchEnd={handleJoystickEnd}
-            className="w-32 h-32 bg-slate-800/50 rounded-full border-2 border-orange-500/30 flex items-center justify-center cursor-move select-none"
-          >
-            <div className={`w-12 h-12 bg-orange-500 rounded-full transition-transform ${joystickActive ? 'scale-90' : ''}`}>
-              <Icon name="Move" className="w-8 h-8 text-white m-auto mt-2" />
-            </div>
+        <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-4">
+          <div className="flex gap-2">
+            <Button
+              onMouseDown={() => setPlayerY(Math.max(50, playerY - 20))}
+              onTouchStart={() => setPlayerY(Math.max(50, playerY - 20))}
+              size="lg"
+              className="bg-slate-800 hover:bg-slate-700 text-white"
+            >
+              <Icon name="ArrowUp" className="w-6 h-6" />
+            </Button>
+          </div>
+          <div className="flex gap-2">
+            <Button
+              onMouseDown={() => setPlayerX(Math.max(0, playerX - 20))}
+              onTouchStart={() => setPlayerX(Math.max(0, playerX - 20))}
+              size="lg"
+              className="bg-slate-800 hover:bg-slate-700 text-white"
+            >
+              <Icon name="ArrowLeft" className="w-6 h-6" />
+            </Button>
+            <Button
+              onMouseDown={() => setPlayerY(Math.min(500, playerY + 20))}
+              onTouchStart={() => setPlayerY(Math.min(500, playerY + 20))}
+              size="lg"
+              className="bg-slate-800 hover:bg-slate-700 text-white"
+            >
+              <Icon name="ArrowDown" className="w-6 h-6" />
+            </Button>
+            <Button
+              onMouseDown={() => setPlayerX(Math.min(400, playerX + 20))}
+              onTouchStart={() => setPlayerX(Math.min(400, playerX + 20))}
+              size="lg"
+              className="bg-slate-800 hover:bg-slate-700 text-white"
+            >
+              <Icon name="ArrowRight" className="w-6 h-6" />
+            </Button>
           </div>
         </div>
 
         <div className="text-center text-gray-400 text-sm mt-4">
-          Кликай по полю боя для стрельбы • Двойной клик = Авиа-бомба 💣 • Используй джойстик для передвижения
+          Кликай по полю боя для стрельбы • Двойной клик = Авиа-бомба 💣 • Используй кнопки для передвижения
         </div>
       </div>
     </div>
