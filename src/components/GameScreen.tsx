@@ -37,6 +37,15 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
   const [joystickAngle, setJoystickAngle] = useState(0);
   const canvasRef = useRef<HTMLDivElement>(null);
   const lastClickTime = useRef(0);
+  const shootSoundRef = useRef<HTMLAudioElement | null>(null);
+  const explosionSoundRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    shootSoundRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2000/2000-preview.mp3');
+    explosionSoundRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2803/2803-preview.mp3');
+    shootSoundRef.current.volume = 0.3;
+    explosionSoundRef.current.volume = 0.4;
+  }, []);
 
   useEffect(() => {
     const initialEnemies: Enemy[] = [];
@@ -101,6 +110,10 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
               const newHealth = enemy.health - 50;
               if (newHealth <= 0) {
                 setEnemiesKilled(k => k + 1);
+                if (explosionSoundRef.current) {
+                  explosionSoundRef.current.currentTime = 0;
+                  explosionSoundRef.current.play().catch(() => {});
+                }
                 return null;
               }
               return { ...enemy, health: newHealth };
@@ -150,8 +163,17 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
 
       setBullets(prev => [...prev, newBullet]);
       
+      if (shootSoundRef.current) {
+        shootSoundRef.current.currentTime = 0;
+        shootSoundRef.current.play().catch(() => {});
+      }
+      
       if (isDoubleClick) {
         toast.success('Авиа-бомба запущена! 💣');
+        if (explosionSoundRef.current) {
+          explosionSoundRef.current.currentTime = 0;
+          explosionSoundRef.current.play().catch(() => {});
+        }
       }
 
       setCanShoot(false);

@@ -2,6 +2,7 @@ import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import Icon from '@/components/ui/icon';
 import type { User, Screen } from '../App';
+import { useEffect, useRef } from 'react';
 
 interface MainMenuProps {
   user: User;
@@ -10,6 +11,22 @@ interface MainMenuProps {
 }
 
 export default function MainMenu({ user, onNavigate, onLogout }: MainMenuProps) {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    audioRef.current = new Audio('https://assets.mixkit.co/active_storage/sfx/2462/2462-preview.mp3');
+    audioRef.current.loop = true;
+    audioRef.current.volume = 0.3;
+    audioRef.current.play().catch(() => {});
+
+    return () => {
+      if (audioRef.current) {
+        audioRef.current.pause();
+        audioRef.current = null;
+      }
+    };
+  }, []);
+
   const menuItems = [
     { icon: 'User', label: 'Профиль', screen: 'profile' as Screen, color: 'from-blue-600 to-cyan-600' },
     { icon: 'Crosshair', label: 'Играть', screen: 'game' as Screen, color: 'from-orange-600 to-red-600' },
@@ -35,7 +52,7 @@ export default function MainMenu({ user, onNavigate, onLogout }: MainMenuProps) 
       <div className="w-full max-w-6xl relative z-10">
         <div className="text-center mb-12 animate-fade-in">
           <h1 className="text-7xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 orbitron">
-            WARZONE
+            WARZONA
           </h1>
           <div className="flex items-center justify-center gap-3 text-gray-300">
             <span className="text-lg">{user.avatar}</span>

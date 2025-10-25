@@ -89,7 +89,7 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
     localStorage.setItem('users', JSON.stringify(users));
     
     onLogin(newUser);
-    toast.success('Регистрация успешна! Добро пожаловать в WarZone!');
+    toast.success('Регистрация успешна! Добро пожаловать в WarZona!');
   };
 
   return (
@@ -99,7 +99,7 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
       <Card className="w-full max-w-md p-8 bg-slate-900/90 backdrop-blur-xl border-orange-500/30 shadow-2xl relative z-10 animate-scale-in">
         <div className="text-center mb-8">
           <h1 className="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 orbitron">
-            WARZONE
+            WARZONA
           </h1>
           <p className="text-gray-400">Военный онлайн-шутер</p>
         </div>
@@ -139,9 +139,6 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
             >
               Войти в игру
             </Button>
-            <p className="text-xs text-gray-500 text-center mt-4">
-              Админ: plutka / user
-            </p>
           </TabsContent>
 
           <TabsContent value="register" className="space-y-4">
