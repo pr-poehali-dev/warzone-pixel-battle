@@ -93,15 +93,15 @@ export default function AuthScreen({ onLogin }: AuthScreenProps) {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 bg-military-pattern">
+    <div className="min-h-screen flex items-center justify-center p-2 sm:p-4 bg-military-pattern">
       <div className="absolute inset-0 bg-gradient-to-br from-orange-900/20 via-transparent to-red-900/20" />
       
-      <Card className="w-full max-w-md p-8 bg-slate-900/90 backdrop-blur-xl border-orange-500/30 shadow-2xl relative z-10 animate-scale-in">
-        <div className="text-center mb-8">
-          <h1 className="text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 orbitron">
+      <Card className="w-full max-w-md p-4 sm:p-8 bg-slate-900/90 backdrop-blur-xl border-orange-500/30 shadow-2xl relative z-10 animate-scale-in">
+        <div className="text-center mb-6 sm:mb-8">
+          <h1 className="text-3xl sm:text-5xl font-bold mb-2 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-red-600 orbitron">
             WARZONA
           </h1>
-          <p className="text-gray-400">Военный онлайн-шутер</p>
+          <p className="text-sm sm:text-base text-gray-400">Военный онлайн-шутер</p>
         </div>
 
         <Tabs defaultValue="login" className="w-full">

@@ -198,25 +198,25 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
 
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center p-4 bg-slate-950">
+    <div className="min-h-screen flex flex-col items-center justify-center p-2 sm:p-4 bg-slate-950">
       <div className="w-full max-w-5xl">
-        <div className="flex justify-between items-center mb-4">
-          <Button onClick={onBack} variant="outline" className="border-orange-500/50">
-            <Icon name="ArrowLeft" className="w-4 h-4 mr-2" />
-            Назад
+        <div className="flex justify-between items-center mb-2 sm:mb-4 gap-2">
+          <Button onClick={onBack} variant="outline" className="border-orange-500/50 text-xs sm:text-base px-2 sm:px-4">
+            <Icon name="ArrowLeft" className="w-3 h-3 sm:w-4 sm:h-4 sm:mr-2" />
+            <span className="hidden sm:inline">Назад</span>
           </Button>
-          <div className="text-white text-xl font-bold orbitron">
-            Уровень {level} | Врагов: {enemies.length}
+          <div className="text-white text-xs sm:text-xl font-bold orbitron text-center">
+            Ур. {level} | {enemies.length}
           </div>
-          <div className="text-orange-500 font-bold">
-            {canShoot ? '🎯 Готов' : '⏳ Перезарядка'}
+          <div className="text-orange-500 font-bold text-xs sm:text-base">
+            {canShoot ? '🎯' : '⏳'}
           </div>
         </div>
 
         <div
           ref={canvasRef}
           onClick={(e) => handleShoot(e.clientX, e.clientY)}
-          className="relative w-full h-[600px] bg-gradient-to-b from-slate-900 to-slate-800 border-2 border-orange-500/30 rounded-lg overflow-hidden cursor-crosshair"
+          className="relative w-full h-[300px] sm:h-[600px] bg-gradient-to-b from-slate-900 to-slate-800 border-2 border-orange-500/30 rounded-lg overflow-hidden cursor-crosshair"
           style={{ touchAction: 'none' }}
         >
           <div 
@@ -240,53 +240,47 @@ export default function GameScreen({ user, level, onBack, onUpdateUser }: GameSc
             />
           ))}
 
-          <div className="absolute top-4 left-4 text-white text-sm space-y-1">
-            <div>🎯 Убито: {enemiesKilled}</div>
-            <div>💰 Награда: {enemiesKilled * 100} монет</div>
+          <div className="absolute top-2 left-2 sm:top-4 sm:left-4 text-white text-xs sm:text-sm space-y-1">
+            <div>🎯 {enemiesKilled}</div>
+            <div>💰 {enemiesKilled * 100}</div>
           </div>
         </div>
 
-        <div className="flex flex-col md:flex-row justify-center items-center gap-4 mt-4">
-          <div className="flex gap-2">
-            <Button
-              onMouseDown={() => setPlayerY(Math.max(50, playerY - 20))}
-              onTouchStart={() => setPlayerY(Math.max(50, playerY - 20))}
-              size="lg"
-              className="bg-slate-800 hover:bg-slate-700 text-white"
-            >
-              <Icon name="ArrowUp" className="w-6 h-6" />
-            </Button>
-          </div>
-          <div className="flex gap-2">
-            <Button
-              onMouseDown={() => setPlayerX(Math.max(0, playerX - 20))}
-              onTouchStart={() => setPlayerX(Math.max(0, playerX - 20))}
-              size="lg"
-              className="bg-slate-800 hover:bg-slate-700 text-white"
-            >
-              <Icon name="ArrowLeft" className="w-6 h-6" />
-            </Button>
-            <Button
-              onMouseDown={() => setPlayerY(Math.min(500, playerY + 20))}
-              onTouchStart={() => setPlayerY(Math.min(500, playerY + 20))}
-              size="lg"
-              className="bg-slate-800 hover:bg-slate-700 text-white"
-            >
-              <Icon name="ArrowDown" className="w-6 h-6" />
-            </Button>
-            <Button
-              onMouseDown={() => setPlayerX(Math.min(400, playerX + 20))}
-              onTouchStart={() => setPlayerX(Math.min(400, playerX + 20))}
-              size="lg"
-              className="bg-slate-800 hover:bg-slate-700 text-white"
-            >
-              <Icon name="ArrowRight" className="w-6 h-6" />
-            </Button>
-          </div>
+        <div className="flex justify-center items-center gap-2 sm:gap-3 mt-2 sm:mt-4">
+          <Button
+            onMouseDown={() => setPlayerY(Math.max(50, playerY - 20))}
+            onTouchStart={() => setPlayerY(Math.max(50, playerY - 20))}
+            className="bg-slate-800 hover:bg-slate-700 text-white w-12 h-12 sm:w-16 sm:h-16 p-0"
+          >
+            <Icon name="ArrowUp" className="w-5 h-5 sm:w-6 sm:h-6" />
+          </Button>
+        </div>
+        <div className="flex justify-center items-center gap-2 sm:gap-3 mt-2">
+          <Button
+            onMouseDown={() => setPlayerX(Math.max(0, playerX - 20))}
+            onTouchStart={() => setPlayerX(Math.max(0, playerX - 20))}
+            className="bg-slate-800 hover:bg-slate-700 text-white w-12 h-12 sm:w-16 sm:h-16 p-0"
+          >
+            <Icon name="ArrowLeft" className="w-5 h-5 sm:w-6 sm:h-6" />
+          </Button>
+          <Button
+            onMouseDown={() => setPlayerY(Math.min(500, playerY + 20))}
+            onTouchStart={() => setPlayerY(Math.min(500, playerY + 20))}
+            className="bg-slate-800 hover:bg-slate-700 text-white w-12 h-12 sm:w-16 sm:h-16 p-0"
+          >
+            <Icon name="ArrowDown" className="w-5 h-5 sm:w-6 sm:h-6" />
+          </Button>
+          <Button
+            onMouseDown={() => setPlayerX(Math.min(400, playerX + 20))}
+            onTouchStart={() => setPlayerX(Math.min(400, playerX + 20))}
+            className="bg-slate-800 hover:bg-slate-700 text-white w-12 h-12 sm:w-16 sm:h-16 p-0"
+          >
+            <Icon name="ArrowRight" className="w-5 h-5 sm:w-6 sm:h-6" />
+          </Button>
         </div>
 
-        <div className="text-center text-gray-400 text-sm mt-4">
-          Кликай по полю боя для стрельбы • Двойной клик = Авиа-бомба 💣 • Используй кнопки для передвижения
+        <div className="text-center text-gray-400 text-xs sm:text-sm mt-2 sm:mt-4 px-2">
+          Кликай для стрельбы • 2х клик = Бомба 💣 • Кнопки/WASD для движения
         </div>
       </div>
     </div>

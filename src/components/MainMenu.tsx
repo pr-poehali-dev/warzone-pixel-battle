@@ -30,43 +30,43 @@ export default function MainMenu({ user, onNavigate, onLogout, onSelectLevel }: 
   }
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4">
+    <div className="min-h-screen flex items-center justify-center p-2 sm:p-4">
       <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-orange-900/20 to-slate-900" />
       
       <div className="w-full max-w-6xl relative z-10">
-        <div className="text-center mb-12 animate-fade-in">
-          <h1 className="text-7xl font-bold mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 orbitron">
+        <div className="text-center mb-6 sm:mb-12 animate-fade-in">
+          <h1 className="text-4xl sm:text-7xl font-bold mb-2 sm:mb-4 text-transparent bg-clip-text bg-gradient-to-r from-orange-500 via-red-500 to-orange-600 orbitron">
             WARZONA
           </h1>
-          <div className="flex items-center justify-center gap-3 text-gray-300">
-            <span className="text-lg">{user.avatar}</span>
-            <span className="text-xl font-semibold">{user.nickname}</span>
-            <span className="text-sm bg-slate-800/50 px-3 py-1 rounded-full">{user.id}</span>
+          <div className="flex items-center justify-center gap-2 sm:gap-3 text-gray-300 flex-wrap px-2">
+            <span className="text-base sm:text-lg">{user.avatar}</span>
+            <span className="text-lg sm:text-xl font-semibold">{user.nickname}</span>
+            <span className="text-xs sm:text-sm bg-slate-800/50 px-2 sm:px-3 py-1 rounded-full">{user.id}</span>
           </div>
-          <p className="text-gray-400 mt-2">{user.title}</p>
+          <p className="text-sm sm:text-base text-gray-400 mt-2">{user.title}</p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 animate-scale-in">
+        <div className="grid grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6 animate-scale-in">
           {menuItems.map((item, index) => (
             <Card
               key={item.screen}
               onClick={() => onNavigate(item.screen)}
-              className={`p-8 bg-slate-900/70 backdrop-blur-xl border-slate-700 hover:border-orange-500/50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20 group animate-fade-in`}
+              className={`p-4 sm:p-8 bg-slate-900/70 backdrop-blur-xl border-slate-700 hover:border-orange-500/50 cursor-pointer transition-all duration-300 hover:scale-105 hover:shadow-2xl hover:shadow-orange-500/20 group animate-fade-in`}
               style={{ animationDelay: `${index * 100}ms` }}
             >
-              <div className={`w-16 h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center mb-4 group-hover:scale-110 transition-transform`}>
-                <Icon name={item.icon as any} className="w-8 h-8 text-white" />
+              <div className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full bg-gradient-to-r ${item.color} flex items-center justify-center mb-2 sm:mb-4 group-hover:scale-110 transition-transform mx-auto`}>
+                <Icon name={item.icon as any} className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
               </div>
-              <h3 className="text-2xl font-bold text-white mb-2 orbitron">{item.label}</h3>
+              <h3 className="text-base sm:text-2xl font-bold text-white text-center orbitron">{item.label}</h3>
             </Card>
           ))}
         </div>
 
-        <div className="flex justify-center mt-8">
+        <div className="flex justify-center mt-4 sm:mt-8">
           <Button
             onClick={onLogout}
             variant="outline"
-            className="border-red-500/50 text-red-400 hover:bg-red-500/10"
+            className="border-red-500/50 text-red-400 hover:bg-red-500/10 text-sm sm:text-base"
           >
             <Icon name="LogOut" className="w-4 h-4 mr-2" />
             Выйти
